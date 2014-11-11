@@ -9,3 +9,14 @@ that will be traveling from the right side of the screen to the left
 and attack the Defenders.
 """
 
+from kivy.properties import Property
+from kivy.uix.image import Image
+import Character.py
+
+class Enemy(Character):
+
+    def init(self):
+        pass
+
+    def update(self):
+        pass
