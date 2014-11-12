@@ -17,8 +17,8 @@ class Character(Image):
     row = 0
     picture = StringProperty(None)
 
-    def init(self, **kwargs):
-        pass#super(Character, self).__init__(**kwargs)
+    def __init__(self, **kwargs):
+        super(Character, self).__init__(**kwargs)
 
     def loadImages(self):
         pass

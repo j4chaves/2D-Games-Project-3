@@ -25,7 +25,7 @@ from kivy.clock import Clock
 from kivy.uix.image import Image
 from kivy.uix.widget import Widget
 import os
-import Defender
+from Defender import Defender
 
 
 #GAME CLASS
@@ -43,7 +43,7 @@ class Game(Widget):
             d.update()
 
     def on_touch_down(self, touch):
-        defender = Defender.Defender()
+        defender = Defender()
         self.defenderList.append(defender)
         self.add_widget(defender)
 
