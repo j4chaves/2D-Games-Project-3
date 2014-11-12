@@ -15,7 +15,7 @@ import Character.py
 
 class Enemy(Character):
 
-    def init(self):
+    def __init__(self):
         pass
 
     def update(self):

@@ -8,13 +8,27 @@ This is a the Defender class.  The player selects what Defender they want to sel
 and what row they want the Defender placed in.
 """
 
-from kivy.properties import Properties
 from kivy.uix.image import Image
+from kivy.logger import Logger
+from Character import Character
+import os
 
 class Defender(Character):
 
-    def init(self):
-        pass
+    def __init__(self, **kwargs):
+        super(Defender, self).__init__(**kwargs)
+        self.loadImage()
+        self.set_center_y(50)
+        self.set_center_x(50)
+
+    def loadImage(self):
+        try:
+            img = os.path.join(os.path.dirname(__file__), 'images', 'defender.png')
+            print("%s" % img)
+            self.source = img
+        except Exception as e:
+            Logger.error("Error loading %s" %img)
+
 
     def update(self):
-        pass
+        self.set_center_x(self.get_center_x())
