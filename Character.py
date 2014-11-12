@@ -10,7 +10,7 @@ This is a parent class for the Enemy and Defender classes.
 from kivy.uix.image import Image
 from kivy.properties import StringProperty
 
-class Character(Widget):
+class Character(Image):
 
     #Variables
     health = 0
