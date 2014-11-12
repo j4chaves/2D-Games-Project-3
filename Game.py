@@ -22,8 +22,10 @@ GAMEAPP CLASS:
 
 from kivy.app import App
 from kivy.clock import Clock
+from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.uix.widget import Widget
+from kivy.uix.gridlayout import GridLayout
 import os
 from Defender import Defender
 
