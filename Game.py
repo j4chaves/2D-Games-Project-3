@@ -28,21 +28,51 @@ from kivy.uix.widget import Widget
 from kivy.uix.gridlayout import GridLayout
 import os
 from Defender import Defender
+from Enemy import Enemy
+
 
 
 #GAME CLASS
 class Game(Widget):
+    enemySpawnCounter = 0
     defenderList = []
+    enemyList = []
 
     def __init__(self, **kwargs):
         super(Game, self).__init__(**kwargs)
         filename = os.path.join(os.path.dirname(__file__), "images", "background.png")
-        print(filename)
 
 
+    #THIS WHOLE METHOD NEEDS TO BE THOUGHT OUT ON PAPER BEFORE BEING IMPLEMENTED
     def update(self, dt):
+
+        #Update all the Defenders on the screen
         for d in self.defenderList:
             d.update()
+
+        #Update all the Enemies on the screen
+        for e in self.enemyList:
+            for d in self.defenderList:
+                if d.health <= 0:
+                    self.defenderList.remove(d)
+                    self.remove_widget(d)
+
+                if e.collide_widget(d):
+                    e.update(True)
+                    e.takeDamage(d.power)
+                    d.takeDamage(e.power)
+                else:
+                    e.update(False)
+
+        #Add new enemy after 3 seconds
+        if self.enemySpawnCounter > 180:
+            e = Enemy()
+            self.enemyList.append(e)
+            self.add_widget(e)
+            self.enemySpawnCounter = 0
+        else:
+            self.enemySpawnCounter += 1
+
 
     def on_touch_down(self, touch):
         defender = Defender()

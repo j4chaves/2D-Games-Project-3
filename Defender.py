@@ -24,11 +24,11 @@ class Defender(Character):
     def loadImage(self):
         try:
             img = os.path.join(os.path.dirname(__file__), 'images', 'defender.png')
-            print("%s" % img)
             self.source = img
         except Exception as e:
             Logger.error("Error loading %s" %img)
 
-
     def update(self):
         self.set_center_x(self.get_center_x())
+        if self.health <= 0:
+            self.remove_widget(self)
