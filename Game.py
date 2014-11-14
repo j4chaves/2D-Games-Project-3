@@ -24,6 +24,7 @@ from kivy.app import App
 from kivy.clock import Clock
 from kivy.uix.button import Button
 from kivy.uix.image import Image
+from kivy.logger import Logger
 from kivy.uix.widget import Widget
 from kivy.uix.gridlayout import GridLayout
 import os
@@ -46,23 +47,16 @@ class Game(Widget):
     #THIS WHOLE METHOD NEEDS TO BE THOUGHT OUT ON PAPER BEFORE BEING IMPLEMENTED
     def update(self, dt):
 
-        #Update all the Defenders on the screen
-        for d in self.defenderList:
-            d.update()
-
-        #Update all the Enemies on the screen
         for e in self.enemyList:
-            for d in self.defenderList:
-                if d.health <= 0:
-                    self.defenderList.remove(d)
-                    self.remove_widget(d)
-
-                if e.collide_widget(d):
-                    e.update(True)
-                    e.takeDamage(d.power)
-                    d.takeDamage(e.power)
-                else:
-                    e.update(False)
+            if len(self.defenderList) > 0:
+                for d in self.defenderList:
+                    if e.collide_widget(d):
+                        d.takeDamage(e.power)
+                        e.takeDamage(d.power)
+                    else:
+                        e.move()
+            else:
+                e.move()
 
         #Add new enemy after 3 seconds
         if self.enemySpawnCounter > 180:

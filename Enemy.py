@@ -30,3 +30,6 @@ class Enemy(Character):
             self.source = img
         except Exception as e:
             Logger.error("Error loading %s" %img)
+
+    def move(self):
+        self.center_x = self.get_center_x() - 1
