@@ -30,10 +30,3 @@ class Enemy(Character):
             self.source = img
         except Exception as e:
             Logger.error("Error loading %s" %img)
-
-    def update(self, collided):
-        #Needs to be thought out/reworked
-        if collided == True:
-            pass
-        else:
-            self.set_center_x(self.get_center_x() - 1)

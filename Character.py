@@ -27,6 +27,3 @@ class Character(Image):
     def loadImages(self):
         pass
 
-    def update(self):
-        self
-

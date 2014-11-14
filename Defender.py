@@ -27,8 +27,3 @@ class Defender(Character):
             self.source = img
         except Exception as e:
             Logger.error("Error loading %s" %img)
-
-    def update(self):
-        self.set_center_x(self.get_center_x())
-        if self.health <= 0:
-            self.remove_widget(self)
