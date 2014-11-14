@@ -22,6 +22,7 @@ GAMEAPP CLASS:
 
 from kivy.app import App
 from kivy.clock import Clock
+from kivy.core.window import Window
 from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.logger import Logger
@@ -32,17 +33,28 @@ from Defender import Defender
 from Enemy import Enemy
 
 
+"""
+BUGS
+
+1. When placing Defenders rapidly, the whole game speeds up.  This causes an error hen an enemy needs to be removed from
+   the enemyList.  The program can't seem to find the enemy.
+"""
+
 
 #GAME CLASS
 class Game(Widget):
     enemySpawnCounter = 0
     defenderList = []
     enemyList = []
+    defenderSelection = 1
 
     def __init__(self, **kwargs):
         super(Game, self).__init__(**kwargs)
         filename = os.path.join(os.path.dirname(__file__), "images", "background.png")
 
+        #Taken from Kivy window Documentation
+        self._keyboard = Window.request_keyboard(self._keyboard_closed, self, 'text')
+        self._keyboard.bind(on_key_down = self._on_keyboard_down)
 
     #THIS WHOLE METHOD NEEDS TO BE THOUGHT OUT ON PAPER BEFORE BEING IMPLEMENTED
     def update(self, dt):
@@ -55,6 +67,14 @@ class Game(Widget):
                         e.takeDamage(d.power)
                     else:
                         e.move()
+
+                    #Remove Defender or Enemy if health is below 0
+                    if e.health <= 0:
+                        self.enemyList.remove(e)
+                        self.remove_widget(e)
+                    if d.health <= 0:
+                        self.remove_widget(d)
+                        self.defenderList.remove(d)
             else:
                 e.move()
 
@@ -72,6 +92,22 @@ class Game(Widget):
         defender = Defender()
         self.defenderList.append(defender)
         self.add_widget(defender)
+
+    def on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        if keycode[1] == '1':
+            self.defenderSelection = 1
+            print("%s" %self.defenderSelection)
+        elif keycode[1] == '2':
+            self.defenderSelection = 2
+            print("%s" %self.defenderSelection)
+        elif keycode[1] == '3':
+            self.defenderSelection = 3
+            print("%s" %self.defenderSelection)
+
+    #taken from Kivy Documentation
+    def _keyboard_closed(self):
+        self._keyboard.unbind(on_key_down=self._on_keyboard_down)
+        self._keyboard = None
 
 #GAMEAPP CLASS
 class GameApp(App):
