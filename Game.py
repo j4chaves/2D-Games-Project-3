@@ -22,6 +22,7 @@ GAMEAPP CLASS:
 
 from kivy.app import App
 from kivy.clock import Clock
+from kivy.config import Config              #needed to configure the window size
 from kivy.core.window import Window
 from kivy.uix.button import Button
 from kivy.uix.image import Image
@@ -32,8 +33,15 @@ import os
 from Defender import Defender
 from Enemy import Enemy
 
+#Credit to Mathieu Virbel on https://groups.google.com/forum/#!topic/kivy-users/TR7UycgcLpQ/discussion
+Config.set('graphics', 'width', '800')
+Config.set('graphics', 'height', '600')
+
 
 """
+TODO
+1. Create ROWS and allow selection of ROWS
+
 BUGS
 
 1. When placing Defenders rapidly, the whole game speeds up.  This causes an error hen an enemy needs to be removed from
@@ -54,7 +62,7 @@ class Game(Widget):
 
         #Taken from Kivy window Documentation
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self, 'text')
-        self._keyboard.bind(on_key_down = self._on_keyboard_down)
+        self._keyboard.bind(on_key_down = self.on_keyboard_down)
 
     #THIS WHOLE METHOD NEEDS TO BE THOUGHT OUT ON PAPER BEFORE BEING IMPLEMENTED
     def update(self, dt):
@@ -93,6 +101,7 @@ class Game(Widget):
         self.defenderList.append(defender)
         self.add_widget(defender)
 
+    #Keyboard input
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[1] == '1':
             self.defenderSelection = 1
