@@ -46,6 +46,8 @@ TODO
 3. Rewrite Game.update() method.  The logic needs to be worked out
 3. Get animated images for anemies and defenders
 4. Create branch with gridlayout
+5. Comment the files
+6. Write Documentation
 
 BUGS
 
