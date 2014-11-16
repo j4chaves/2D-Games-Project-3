@@ -18,18 +18,18 @@ import os
 
 class Enemy(Character):
 
-    def __init__(self, **kwargs):
+    def __init__(self, selection, **kwargs):
         super(Enemy, self).__init__(**kwargs)
-        self.loadImage()
+        self.loadImage(selection)
         self.set_center_x(Window.width - self.width)
         self.set_center_y(50)
 
-    def loadImage(self):
+    def loadImage(self, selection):
         try:
-            img = os.path.join(os.path.dirname(__file__), 'images', 'enemy.png')
+            img = os.path.join(os.path.dirname(__file__), 'images', 'enemy%d.png' %selection)
             self.source = img
         except Exception as e:
             Logger.error("Error loading %s" %img)
 
     def move(self):
-        self.center_x = self.get_center_x() - 1
+        self.center_x = self.get_center_x() - 2

@@ -30,6 +30,7 @@ from kivy.logger import Logger
 from kivy.uix.widget import Widget
 from kivy.uix.gridlayout import GridLayout
 import os
+import random
 from Defender import Defender
 from Enemy import Enemy
 
@@ -41,6 +42,10 @@ Config.set('graphics', 'height', '600')
 """
 TODO
 1. Create ROWS and allow selection of ROWS
+2. Create different profiles for Enemies and Defenders
+3. Rewrite Game.update() method.  The logic needs to be worked out
+3. Get animated images for anemies and defenders
+4. Create branch with gridlayout
 
 BUGS
 
@@ -73,6 +78,9 @@ class Game(Widget):
                     if e.collide_widget(d):
                         d.takeDamage(e.power)
                         e.takeDamage(d.power)
+
+                    # I THINK THIS ELSE IS WHAT IS CAUSING THE ENEMIES TO SPEED UP WITH MULTIPLE DEFENDERS.
+                    # DEFINITELY NEED TO RETHINK THE UPDATE LOGIC
                     else:
                         e.move()
 
@@ -88,7 +96,8 @@ class Game(Widget):
 
         #Add new enemy after 3 seconds
         if self.enemySpawnCounter > 180:
-            e = Enemy()
+            randomEnemy = random.randint(1,3)
+            e = Enemy(randomEnemy)
             self.enemyList.append(e)
             self.add_widget(e)
             self.enemySpawnCounter = 0
@@ -97,7 +106,7 @@ class Game(Widget):
 
 
     def on_touch_down(self, touch):
-        defender = Defender()
+        defender = Defender(self.defenderSelection)
         self.defenderList.append(defender)
         self.add_widget(defender)
 
