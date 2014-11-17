@@ -34,10 +34,6 @@ import random
 from Defender import Defender
 from Enemy import Enemy
 
-#Credit to Mathieu Virbel on https://groups.google.com/forum/#!topic/kivy-users/TR7UycgcLpQ/discussion
-Config.set('graphics', 'width', '800')
-Config.set('graphics', 'height', '600')
-
 
 """
 TODO
