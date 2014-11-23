@@ -23,7 +23,7 @@ GAMEAPP CLASS:
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.config import Config  # needed to configure the window size
-from kivy.core.window import Window
+from kivy.core.window import Window, WindowBase
 from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.logger import Logger
@@ -69,29 +69,6 @@ class Game(Widget):
 
     #THIS WHOLE METHOD NEEDS TO BE THOUGHT OUT ON PAPER BEFORE BEING IMPLEMENTED
     def update(self, dt):
-
-        for e in self.enemyList:
-            if len(self.defenderList) > 0:
-                for d in self.defenderList:
-                    if e.collide_widget(d):
-                        d.takeDamage(e.power)
-                        e.takeDamage(d.power)
-
-                    # I THINK THIS ELSE IS WHAT IS CAUSING THE ENEMIES TO SPEED UP WITH MULTIPLE DEFENDERS.
-                    # DEFINITELY NEED TO RETHINK THE UPDATE LOGIC
-                    else:
-                        e.move()
-
-                    #Remove Defender or Enemy if health is below 0
-                    if e.health <= 0:
-                        self.enemyList.remove(e)
-                        self.remove_widget(e)
-                    if d.health <= 0:
-                        self.remove_widget(d)
-                        self.defenderList.remove(d)
-            else:
-                e.move()
-
         #Add new enemy after 3 seconds
         if self.enemySpawnCounter > 180:
             randomEnemy = random.randint(1, 3)
