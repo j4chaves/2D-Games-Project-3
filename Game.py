@@ -22,7 +22,7 @@ GAMEAPP CLASS:
 
 from kivy.app import App
 from kivy.clock import Clock
-from kivy.config import Config              #needed to configure the window size
+from kivy.config import Config  # needed to configure the window size
 from kivy.core.window import Window
 from kivy.uix.button import Button
 from kivy.uix.image import Image
@@ -52,7 +52,7 @@ BUGS
 """
 
 
-#GAME CLASS
+# GAME CLASS
 class Game(Widget):
     enemySpawnCounter = 0
     defenderList = []
@@ -65,7 +65,7 @@ class Game(Widget):
 
         #Taken from Kivy window Documentation
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self, 'text')
-        self._keyboard.bind(on_key_down = self.on_keyboard_down)
+        self._keyboard.bind(on_key_down=self.on_keyboard_down)
 
     #THIS WHOLE METHOD NEEDS TO BE THOUGHT OUT ON PAPER BEFORE BEING IMPLEMENTED
     def update(self, dt):
@@ -94,7 +94,7 @@ class Game(Widget):
 
         #Add new enemy after 3 seconds
         if self.enemySpawnCounter > 180:
-            randomEnemy = random.randint(1,3)
+            randomEnemy = random.randint(1, 3)
             e = Enemy(randomEnemy)
             self.enemyList.append(e)
             self.add_widget(e)
@@ -112,25 +112,27 @@ class Game(Widget):
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[1] == '1':
             self.defenderSelection = 1
-            print("%s" %self.defenderSelection)
+            print("%s" % self.defenderSelection)
         elif keycode[1] == '2':
             self.defenderSelection = 2
-            print("%s" %self.defenderSelection)
+            print("%s" % self.defenderSelection)
         elif keycode[1] == '3':
             self.defenderSelection = 3
-            print("%s" %self.defenderSelection)
+            print("%s" % self.defenderSelection)
 
     #taken from Kivy Documentation
     def _keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
         self._keyboard = None
 
+
 #GAMEAPP CLASS
 class GameApp(App):
     def build(self):
         game = Game()
-        Clock.schedule_interval(game.update, 1.0/60.0)
+        Clock.schedule_interval(game.update, 1.0 / 60.0)
         return game
+
 
 if __name__ == '__main__':
     GameApp().run()

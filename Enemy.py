@@ -21,8 +21,17 @@ class Enemy(Character):
     def __init__(self, selection, **kwargs):
         super(Enemy, self).__init__(**kwargs)
         self.loadImage(selection)
+        self.setStats(selection)
         self.set_center_x(Window.width - self.width)
         self.set_center_y(50)
+
+    def setStats(self, selection):
+        if selection == 1:
+            pass
+        elif selection == 2:
+            pass
+        elif selection == 3:
+            pass
 
     def loadImage(self, selection):
         try:
