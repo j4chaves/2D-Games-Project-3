@@ -24,11 +24,17 @@ class Defender(Character):
 
     def setStats(self, selection):
         if selection == 1:
-            pass
+            self.health = 100
+            self.power = 25
         elif selection == 2:
-            pass
+            self.health = 150
+            self.power = 20
         elif selection == 3:
-            pass
+            self.health = 200
+            self.power = 13
+        elif selection == 4:
+            self.health = 20
+            self.power = 40
 
     def loadImage(self, selection):
         try:

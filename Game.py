@@ -79,6 +79,11 @@ class Game(Widget):
         else:
             self.enemySpawnCounter += 1
 
+        for e in self.enemyList:
+            for d in self.defenderList:
+                if e.collide_widget(d):
+                    e.takeDamage(d.)
+
 
     def on_touch_down(self, touch):
         defender = Defender(self.defenderSelection)

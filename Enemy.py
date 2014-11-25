@@ -27,12 +27,17 @@ class Enemy(Character):
 
     def setStats(self, selection):
         if selection == 1:
-            pass
+            #Basic enemy
+            self.health = 100
+            self.power = 5
         elif selection == 2:
-            pass
+            #Strong enemy, weak health
+            self.health = 60
+            self.power = 15
         elif selection == 3:
-            pass
-
+            #Fast enemy
+            self.health = 80
+            self.power = 7
     def loadImage(self, selection):
         try:
             img = os.path.join(os.path.dirname(__file__), 'images', 'enemy%d.png' %selection)
