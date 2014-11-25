@@ -82,7 +82,8 @@ class Game(Widget):
         for e in self.enemyList:
             for d in self.defenderList:
                 if e.collide_widget(d):
-                    e.takeDamage(d.)
+                    e.takeDamage(d.power)
+                    d.takeDamage(e.power)
 
 
     def on_touch_down(self, touch):
