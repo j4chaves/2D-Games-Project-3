@@ -53,7 +53,7 @@ BUGS
 
 
 # GAME CLASS
-class Game(Widget):
+class Game(GridLayout):
     enemySpawnCounter = 0
     defenderList = []
     enemyList = []
@@ -61,6 +61,7 @@ class Game(Widget):
 
     def __init__(self, **kwargs):
         super(Game, self).__init__(**kwargs)
+        self.rows = 6
         filename = os.path.join(os.path.dirname(__file__), "images", "background.png")
 
         #Taken from Kivy window Documentation
