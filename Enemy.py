@@ -18,9 +18,10 @@ import os
 
 class Enemy(Character):
 
-    def __init__(self, selection, **kwargs):
+    def __init__(self, selection, row, **kwargs):
         super(Enemy, self).__init__(**kwargs)
         self.loadImage(selection)
+        self.row = row
         self.setStats(selection)
         self.set_center_x(Window.width - self.width)
         self.set_center_y(50)

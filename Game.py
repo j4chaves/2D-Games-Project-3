@@ -39,13 +39,13 @@ from Row import Row
 
 """
 TODO
-1. Create ROWS and allow selection of ROWS
-2. Create different profiles for Enemies and Defenders
-3. Rewrite Game.update() method.  The logic needs to be worked out
-3. Get animated images for anemies and defenders
-4. Create branch with gridlayout
-5. Comment the files
-6. Write Documentation
+1. Enemy movement
+2. Rewrite Game.update() method.  The logic needs to be worked out
+3. Set animated images for enemies and defenders
+4. Animations and score
+5. Place images on headerRow for the player to see what their current defender selection is
+6. Comment the files
+7. Write Documentation
 
 BUGS
 
@@ -59,6 +59,7 @@ class Game(BoxLayout):
     enemySpawnCounter = 0
     defenderList = []
     enemyList = []
+    enemyTimer = 0
     defenderSelection = 1
     header = Row()
     row1 = Row()
@@ -84,7 +85,31 @@ class Game(BoxLayout):
 
     #THIS WHOLE METHOD NEEDS TO BE THOUGHT OUT ON PAPER BEFORE BEING IMPLEMENTED
     def update(self, dt):
-        pass
+        #Add new enemy every 3 seconds, change to 5 seconds later
+        self.enemyTimer += dt
+        if self.enemyTimer > 3:
+            self.enemyTimer = 0
+            #Generate random numbers to determine which enemy to select and what row to place them in.
+            #The enemyNumber is weighted in favor of the weaker enemy type
+            enemyNumber = random.randint(1, 10)
+            enemyRow = random.randint(1, 5)
+            if enemyNumber <= 6:
+                enemyNumber = 1
+            else:
+                enemyNumber = 2
+            enemy = Enemy(enemyNumber, enemyRow)
+
+            #Add enemy to their row
+            if enemyRow == 1:
+                self.row1.addEnemy(enemy)
+            elif enemyRow == 2:
+                self.row2.addEnemy(enemy)
+            elif enemyRow == 3:
+                self.row3.addEnemy(enemy)
+            elif enemyRow == 4:
+                self.row4.addEnemy(enemy)
+            elif enemyRow == 5:
+                self.row5.addEnemy(enemy)
 
 
     def on_touch_down(self, touch):
