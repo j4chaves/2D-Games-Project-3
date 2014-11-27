@@ -24,15 +24,17 @@ from kivy.app import App
 from kivy.clock import Clock
 from kivy.config import Config  # needed to configure the window size
 from kivy.core.window import Window, WindowBase
+from kivy.graphics import Color
 from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.logger import Logger
 from kivy.uix.widget import Widget
-from kivy.uix.gridlayout import GridLayout
+from kivy.uix.boxlayout import BoxLayout
 import os
 import random
 from Defender import Defender
 from Enemy import Enemy
+from Row import Row
 
 
 """
@@ -53,16 +55,28 @@ BUGS
 
 
 # GAME CLASS
-class Game(GridLayout):
+class Game(BoxLayout):
     enemySpawnCounter = 0
     defenderList = []
     enemyList = []
     defenderSelection = 1
+    header = Row()
+    row1 = Row()
+    row2 = Row()
+    row3 = Row()
+    row4 = Row()
+    row5 = Row()
 
     def __init__(self, **kwargs):
         super(Game, self).__init__(**kwargs)
-        self.rows = 6
-        filename = os.path.join(os.path.dirname(__file__), "images", "background.png")
+        self.orientation = 'vertical'
+
+        self.add_widget(self.header)
+        self.add_widget(self.row1)
+        self.add_widget(self.row2)
+        self.add_widget(self.row3)
+        self.add_widget(self.row4)
+        self.add_widget(self.row5)
 
         #Taken from Kivy window Documentation
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self, 'text')
@@ -70,27 +84,31 @@ class Game(GridLayout):
 
     #THIS WHOLE METHOD NEEDS TO BE THOUGHT OUT ON PAPER BEFORE BEING IMPLEMENTED
     def update(self, dt):
-        #Add new enemy after 3 seconds
-        if self.enemySpawnCounter > 180:
-            randomEnemy = random.randint(1, 3)
-            e = Enemy(randomEnemy)
-            self.enemyList.append(e)
-            self.add_widget(e)
-            self.enemySpawnCounter = 0
-        else:
-            self.enemySpawnCounter += 1
-
-        for e in self.enemyList:
-            for d in self.defenderList:
-                if e.collide_widget(d):
-                    e.takeDamage(d.power)
-                    d.takeDamage(e.power)
+        pass
 
 
     def on_touch_down(self, touch):
-        defender = Defender(self.defenderSelection)
-        self.defenderList.append(defender)
-        self.add_widget(defender)
+        if self.row1.collide_point(touch.x, touch.y):
+            defender = Defender(self.defenderSelection, 1)
+            self.defenderList.append(defender)
+            self.row1.addDefender(defender)
+        elif self.row2.collide_point(touch.x, touch.y):
+            defender = Defender(self.defenderSelection, 2)
+            self.defenderList.append(defender)
+            self.row2.addDefender(defender)
+        elif self.row3.collide_point(touch.x, touch.y):
+            defender = Defender(self.defenderSelection, 3)
+            self.defenderList.append(defender)
+            self.row3.addDefender(defender)
+        elif self.row4.collide_point(touch.x, touch.y):
+            defender = Defender(self.defenderSelection, 4)
+            self.defenderList.append(defender)
+            self.row4.addDefender(defender)
+        elif self.row5.collide_point(touch.x, touch.y):
+            defender = Defender(self.defenderSelection, 5)
+            self.defenderList.append(defender)
+            self.row5.addDefender(defender)
+
 
     #Keyboard input
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):
