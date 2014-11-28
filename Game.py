@@ -40,6 +40,7 @@ from Row import Row
 
 """
 TODO
+Figure out how to call header.DefenderMenu after init is done but not called continuously
 1. Enemy movement
 2. Rewrite Game.update() method.  The logic needs to be worked out
 3. Set animated images for enemies and defenders

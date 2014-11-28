@@ -24,6 +24,7 @@ class Header(Widget):
 
     def __init__(self, **kwargs):
         super(Header, self).__init__(**kwargs)
+        self.DefenderMenu()
 
     def DefenderMenu(self):
         #Load the images for the defender selection
