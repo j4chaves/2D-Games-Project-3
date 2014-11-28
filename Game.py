@@ -123,7 +123,7 @@ class Game(BoxLayout):
 
         #Load the header.  Reasoning for being here is in readme file.
         if not self.headerIsLoaded:
-           # self.header.DefenderMenu()
+            self.header.DefenderMenu()
             self.headerIsLoaded = True
 
 
