@@ -28,24 +28,30 @@ class Header(Widget):
     def DefenderMenu(self):
         #Load the images for the defender selection
         directory = os.path.dirname(__file__)
-        def1FileName = os.path.join(directory, 'images', 'defenderCaveman', 'attack0.bmp')
+        def1FileName = os.path.join(directory, 'images', 'defenderCaveman', 'attack0.png')
         self.defImage1.source = def1FileName
         self.add_widget(self.defImage1)
         self.defImage1.set_center_x(self.right / 2 - self.defImage1.width - 5)
         self.defImage1.set_center_y(self.top - self.height/2)
 
-        def2FileName = os.path.join(directory, 'images', 'defenderDwarf', 'attack0.bmp')
+        def2FileName = os.path.join(directory, 'images', 'defenderDwarf', 'attack0.png')
         self.defImage2.source = def2FileName
         self.add_widget(self.defImage2)
         self.defImage2.set_center_x(self.right / 2)
         self.defImage2.set_center_y(self.top - self.height/2)
 
-        def3FileName = os.path.join(directory, 'images', 'enemyGnome', 'attack0.bmp')
+        def3FileName = os.path.join(directory, 'images', 'defenderVlad', 'attack0.png')
         self.defImage3.source = def3FileName
         self.add_widget(self.defImage3)
         self.defImage3.set_center_x(self.right / 2 + self.defImage3.width + 5)
         self.defImage3.set_center_y(self.top - self.height/2)
 
-
-    def on_touch_down(self, touch):
-        pass
+    def changeDefenderSelection(self, touch, current):
+        if self.defImage1.collide_point(touch.x, touch.y):
+            return 1
+        elif self.defImage2.collide_point(touch.x, touch.y):
+            return 2
+        elif self.defImage3.collide_point(touch.x, touch.y):
+            return 3
+        else:
+            return current

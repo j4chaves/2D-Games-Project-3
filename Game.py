@@ -149,6 +149,11 @@ class Game(BoxLayout):
             self.defenderList.append(defender)
             self.row5.addDefender(defender)
 
+        #Change defender selection by clicking on the image in the header
+        elif self.header.collide_point(touch.x, touch.y):
+            self.defenderSelection = self.header.changeDefenderSelection(touch, self.defenderSelection)
+            print('Current Defender is %d' %self.defenderSelection)
+
 
     #Keyboard input
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):
