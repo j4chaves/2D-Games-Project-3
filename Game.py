@@ -17,7 +17,7 @@ GAME CLASS:
     METHODS:
 
 GAMEAPP CLASS:
-    Top level class that just starts the game and the Clock for updating the screen.
+    Top level class that starts the game and the Clock for updating the screen and handles the game logic.
 """
 
 from kivy.app import App
@@ -34,6 +34,7 @@ import os
 import random
 from Defender import Defender
 from Enemy import Enemy
+from Header import Header
 from Row import Row
 
 
@@ -61,7 +62,7 @@ class Game(BoxLayout):
     enemyList = []
     enemyTimer = 0
     defenderSelection = 1
-    header = Row()
+    header = Header()
     row1 = Row()
     row2 = Row()
     row3 = Row()
@@ -98,6 +99,7 @@ class Game(BoxLayout):
             else:
                 enemyNumber = 2
             enemy = Enemy(enemyNumber, enemyRow)
+            self.enemyList.append(enemy)
 
             #Add enemy to their row
             if enemyRow == 1:
@@ -110,6 +112,11 @@ class Game(BoxLayout):
                 self.row4.addEnemy(enemy)
             elif enemyRow == 5:
                 self.row5.addEnemy(enemy)
+
+        for e in self.enemyList:
+            for d in self.defenderList:
+                if not(e.collide_widget(d)):
+                    e.move()
 
 
     def on_touch_down(self, touch):

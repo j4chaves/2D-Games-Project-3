@@ -39,6 +39,7 @@ class Enemy(Character):
             #Fast enemy
             self.health = 80
             self.power = 7
+
     def loadImage(self, selection):
         try:
             img = os.path.join(os.path.dirname(__file__), 'images', 'enemy%d.png' %selection)
@@ -47,4 +48,4 @@ class Enemy(Character):
             Logger.error("Error loading %s" %img)
 
     def move(self):
-        self.center_x = self.get_center_x() - 2
+        self.set_center_x(self.get_center_x() - 10)
