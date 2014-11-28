@@ -25,26 +25,28 @@ class Header(Widget):
     def __init__(self, **kwargs):
         super(Header, self).__init__(**kwargs)
         self.DefenderMenu()
-
     def DefenderMenu(self):
         #Load the images for the defender selection
         directory = os.path.dirname(__file__)
-        def1FileName = os.path.join(directory, 'images', 'defender1.png')
-        def2FileName = os.path.join(directory, 'images', 'defender2.png')
-        def3FileName = os.path.join(directory, 'images', 'defender3.png')
+        def1FileName = os.path.join(directory, 'images', 'defenderCaveman', 'attack0.bmp')
         self.defImage1.source = def1FileName
-        self.defImage2.source = def2FileName
-        self.defImage3.source = def3FileName
+        self.add_widget(self.defImage1)
         self.defImage1.set_center_x(self.right / 2 - self.defImage1.width - 5)
         self.defImage1.set_center_y(self.top - self.height/2)
-        self.defImage2.set_center_x(self.right / 2)
-        self.defImage1.set_center_y(self.top - self.height/2)
-        self.defImage3.set_center_x(self.right / 2 + self.defImage1.width + 5)
-        self.defImage1.set_center_y(self.top - self.height/2)
 
-        self.add_widget(self.defImage1)
-        #self.add_widget(self.defImage2)
-        #self.add_widget(self.defImage3)
+
+        def2FileName = os.path.join(directory, 'images', 'defenderDwarf', 'attack0.bmp')
+        self.defImage2.source = def2FileName
+        self.add_widget(self.defImage2)
+        self.defImage2.set_center_x(self.right / 2)
+        self.defImage2.set_center_y(self.top - self.height/2)
+
+        def3FileName = os.path.join(directory, 'images', 'defenderVlad', 'attack0.bmp')
+        self.defImage3.source = def3FileName
+        self.add_widget(self.defImage3)
+        self.defImage3.set_center_x(self.right / 2 + self.defImage1.width + 5)
+        self.defImage3.set_center_y(self.top - self.height/2)
+
 
     def on_touch_down(self, touch):
         pass

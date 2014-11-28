@@ -69,6 +69,7 @@ class Game(BoxLayout):
     row3 = Row()
     row4 = Row()
     row5 = Row()
+    headerIsLoaded = False
 
     def __init__(self, **kwargs):
         super(Game, self).__init__(**kwargs)
@@ -87,6 +88,7 @@ class Game(BoxLayout):
 
     #THIS WHOLE METHOD NEEDS TO BE THOUGHT OUT ON PAPER BEFORE BEING IMPLEMENTED
     def update(self, dt):
+
         #Add new enemy every 3 seconds, change to 5 seconds later
         self.enemyTimer += dt
         if self.enemyTimer > 3:
@@ -118,6 +120,11 @@ class Game(BoxLayout):
             for d in self.defenderList:
                 if not(e.collide_widget(d)):
                     e.move()
+
+        #Load the header.  Reasoning for being here is in readme file.
+        if not self.headerIsLoaded:
+           # self.header.DefenderMenu()
+            self.headerIsLoaded = True
 
 
     def on_touch_down(self, touch):
