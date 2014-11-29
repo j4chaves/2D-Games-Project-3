@@ -16,6 +16,9 @@ class Character(Image):
     health = 100
     power = 20
     row = 0
+    state = 0
+    animFrame = 0
+    animCounter = 0
     picture = StringProperty(None)
 
     def __init__(self, **kwargs):

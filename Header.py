@@ -48,10 +48,22 @@ class Header(Widget):
 
     def changeDefenderSelection(self, touch, current):
         if self.defImage1.collide_point(touch.x, touch.y):
+            directory = os.path.dirname(__file__)
+            self.defImage1.source = os.path.join(directory, 'images', 'defenderCaveman', 'selected.png')
+            self.defImage2.source = os.path.join(directory, 'images', 'defenderDwarf', 'attack0.png')
+            self.defImage3.source = os.path.join(directory, 'images', 'defenderVlad', 'attack0.png')
             return 1
         elif self.defImage2.collide_point(touch.x, touch.y):
+            directory = os.path.dirname(__file__)
+            self.defImage1.source = os.path.join(directory, 'images', 'defenderCaveman', 'attack0.png')
+            self.defImage2.source = os.path.join(directory, 'images', 'defenderDwarf', 'selected.png')
+            self.defImage3.source = os.path.join(directory, 'images', 'defenderVlad', 'attack0.png')
             return 2
         elif self.defImage3.collide_point(touch.x, touch.y):
+            directory = os.path.dirname(__file__)
+            self.defImage1.source = os.path.join(directory, 'images', 'defenderCaveman', 'attack0.png')
+            self.defImage2.source = os.path.join(directory, 'images', 'defenderDwarf', 'attack0.png')
+            self.defImage3.source = os.path.join(directory, 'images', 'defenderVlad', 'selected.png')
             return 3
         else:
             return current

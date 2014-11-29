@@ -41,8 +41,14 @@ class Enemy(Character):
             self.power = 7
 
     def loadImage(self, selection):
+        if selection == 1:
+            filename = os.path.join(os.path.dirname(__file__), 'images', 'enemyGnome', 'walk0.png')
+        elif selection == 2:
+            filename = os.path.join(os.path.dirname(__file__), 'images', 'enemyTroll', 'walk0.png')
+        elif selection == 3:
+            filename = os.path.join(os.path.dirname(__file__), 'images', 'enemyDragon', 'walk0.png')
         try:
-            img = os.path.join(os.path.dirname(__file__), 'images', 'enemy%d.png' %selection)
+            img = filename
             self.source = img
         except Exception as e:
             Logger.error("Error loading %s" %img)
