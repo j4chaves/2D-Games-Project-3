@@ -17,27 +17,30 @@ class Defender(Character):
 
     def __init__(self, selection, rowNumber, **kwargs):
         super(Defender, self).__init__(**kwargs)
-        self.loadImage(selection)
         self.row = rowNumber
         self.setStats(selection)
+        self.loadImage(selection)
 
     def setStats(self, selection):
         if selection == 1:
             self.health = 100
             self.power = 25
+            self.name = 'defenderCaveman'
         elif selection == 2:
             self.health = 150
             self.power = 20
+            self.name = 'defenderDwarf'
         elif selection == 3:
             self.health = 200
             self.power = 13
+            self.name = 'defenderVlad'
         elif selection == 4:
             self.health = 20
             self.power = 40
 
     def loadImage(self, selection):
         try:
-            img = os.path.join(os.path.dirname(__file__), 'images', 'defender%d.png' %selection)
+            img = os.path.join(os.path.dirname(__file__), 'images', self.name, 'attack0.png')
             self.source = img
         except Exception as e:
             Logger.error("Error loading %s" %img)

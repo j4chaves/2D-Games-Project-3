@@ -17,9 +17,11 @@ class Character(Image):
     power = 20
     row = 0
     state = 0
+    name = ""
     animFrame = 0
     animCounter = 0
-    picture = StringProperty(None)
+    animDelay = 0
+    image = StringProperty(None)
 
     def __init__(self, **kwargs):
         super(Character, self).__init__(**kwargs)

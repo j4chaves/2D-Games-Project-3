@@ -20,9 +20,9 @@ class Enemy(Character):
 
     def __init__(self, selection, row, **kwargs):
         super(Enemy, self).__init__(**kwargs)
-        self.loadImage(selection)
         self.row = row
         self.setStats(selection)
+        self.loadImage(selection)
         self.set_center_x(Window.width - self.width)
         self.set_center_y(50)
 
@@ -31,27 +31,34 @@ class Enemy(Character):
             #Basic enemy
             self.health = 100
             self.power = 5
+            self.name = 'enemyGnome'
         elif selection == 2:
             #Strong enemy, weak health
             self.health = 60
             self.power = 15
+            self.name = 'enemyTroll'
         elif selection == 3:
             #Fast enemy
             self.health = 80
             self.power = 7
+            self.name = 'enemyDragon'
 
     def loadImage(self, selection):
-        if selection == 1:
-            filename = os.path.join(os.path.dirname(__file__), 'images', 'enemyGnome', 'walk0.png')
-        elif selection == 2:
-            filename = os.path.join(os.path.dirname(__file__), 'images', 'enemyTroll', 'walk0.png')
-        elif selection == 3:
-            filename = os.path.join(os.path.dirname(__file__), 'images', 'enemyDragon', 'walk0.png')
         try:
-            img = filename
+            img = os.path.join(os.path.dirname(__file__), 'images', self.name, 'walk0.png')
             self.source = img
         except Exception as e:
             Logger.error("Error loading %s" %img)
 
     def move(self):
-        self.set_center_x(self.get_center_x() - 10)
+        self.set_center_x(self.get_center_x() - 5)
+
+    def update(self, dt):
+        self.animDelay += 1
+        if self.animDelay >= 30:
+            self.animDelay = 0
+            self.animCounter += 1
+            if self.animCounter >= 8:
+                self.animCounter = 0
+            self.source = os.path.join(os.path.dirname(__file__), 'images', self.name, 'walk%d.png' %self.animCounter)
+

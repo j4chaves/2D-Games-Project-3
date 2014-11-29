@@ -119,7 +119,7 @@ class Game(BoxLayout):
         for e in self.enemyList:
             for d in self.defenderList:
                 if not(e.collide_widget(d)):
-                    e.move()
+                    e.update(dt)
 
         #Load the header.  Reasoning for being here is in readme file.
         if not self.headerIsLoaded:
