@@ -5,6 +5,20 @@ Project 3
 Character Class
 
 This is a parent class for the Enemy and Defender classes.
+
+Variables:
+health - Health of the Character. When it reaches 0, the Character dies.
+power - The attack power of the Character.
+row - The row that the Character is is in.
+state - The current state of the Character.  1 = walking, 2 = attacking.
+name - The name of the Character.  Used for file naming purposes
+animCounter - Used to determine what picture to display to the screen.
+animDelay - Counter used to delay the next picture in the animation.
+
+Methods:
+init(self, **kwargs)
+takeDamage(self, damage)
+loadImages(self)
 """
 
 from kivy.uix.image import Image
@@ -16,9 +30,8 @@ class Character(Image):
     health = 100
     power = 20
     row = 0
-    state = 0
+    state = 1
     name = ""
-    animFrame = 0
     animCounter = 0
     animDelay = 0
     image = StringProperty(None)

@@ -6,6 +6,12 @@ Character Class
 
 This is a the Defender class.  The player selects what Defender they want to select
 and what row they want the Defender placed in.
+
+Methods:
+init(self, selection, rowNumber, **kwargs)
+setStats(self, selection)
+loadImage(self, selection)
+update(self, dt)
 """
 
 from kivy.uix.image import Image
@@ -44,3 +50,14 @@ class Defender(Character):
             self.source = img
         except Exception as e:
             Logger.error("Error loading %s" %img)
+
+    def update(self, dt):
+        if self.state == 2:
+            self.animDelay += 1
+            if self.animDelay >= 30:
+                self.animDelay = 0
+                self.animCounter += 1
+                if self.animCounter >= 8:
+                    self.animCounter = 0
+                self.source = os.path.join(os.path.dirname(__file__),
+                                           'images', self.name, 'attack%d.png' %self.animCounter)

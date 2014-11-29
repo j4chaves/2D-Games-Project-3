@@ -60,5 +60,9 @@ class Enemy(Character):
             self.animCounter += 1
             if self.animCounter >= 8:
                 self.animCounter = 0
-            self.source = os.path.join(os.path.dirname(__file__), 'images', self.name, 'walk%d.png' %self.animCounter)
-
+            if self.state == 1:
+                self.source = os.path.join(os.path.dirname(__file__),
+                                       'images', self.name, 'walk%d.png' %self.animCounter)
+            elif self.state == 2:
+                self.source = os.path.join(os.path.dirname(__file__),
+                                       'images', self.name, 'attack%d.png' %self.animCounter)

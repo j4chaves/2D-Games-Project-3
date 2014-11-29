@@ -53,6 +53,28 @@ BUGS
 
 1. When placing Defenders rapidly, the whole game speeds up.  This causes an error hen an enemy needs to be removed from
    the enemyList.  The program can't seem to find the enemy.
+
+
+Variables:
+enemySpawnCounter
+defenderList
+enemyList
+enemyTimer
+defenderSelection
+header
+row1
+row2
+row3
+row4
+row5
+headerIsLoaded
+
+Methods:
+init(self, **kwargs)
+update(self, dt)
+on_touch_down(self, touch)
+on_keyboard_down(self, keyboard, keycode, text, modifiers)
+_keyboard_close(self)
 """
 
 
@@ -118,8 +140,8 @@ class Game(BoxLayout):
 
         for e in self.enemyList:
             for d in self.defenderList:
-                if not(e.collide_widget(d)):
-                    e.update(dt)
+                d.update(dt)
+                e.update(dt)
 
         #Load the header.  Reasoning for being here is in readme file.
         if not self.headerIsLoaded:

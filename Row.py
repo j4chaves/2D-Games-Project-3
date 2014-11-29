@@ -5,6 +5,10 @@ Project 3
 Row Class
 
 This class separates the rows for which Defenders can be placed and enemies can traverse.
+
+Methods:
+addDefender(self, defender) -
+addEnemy(self, enemy) -
 """
 
 from kivy.uix.widget import Widget

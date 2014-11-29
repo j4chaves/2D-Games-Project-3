@@ -5,6 +5,20 @@ Project 3
 Header Class
 
 This class displays the currently selected Defender and the players current score at the top of the screen.
+
+Variables:
+defImage1 - Image for the Caveman Defender
+defImage2 - Image for the Dwarf Defender
+defImage3 - Image for the Vlad Defender
+selected1 - Image for when Caveman is selected for placement
+selected2 - Image for when Dwarf is selected for placement
+selected3 - Image for when Vlad is selected for placement
+score - Label for the players score
+
+Methods:
+init(self, **kwargs)
+DefenderMenu(self)
+ChangeDefenderSelection(self, touch, current)
 """
 
 from kivy.uix.image import Image
