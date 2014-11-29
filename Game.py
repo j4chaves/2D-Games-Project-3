@@ -91,6 +91,7 @@ class Game(BoxLayout):
     row3 = Row()
     row4 = Row()
     row5 = Row()
+    reources = 5
     headerIsLoaded = False
 
     def __init__(self, **kwargs):
@@ -113,13 +114,14 @@ class Game(BoxLayout):
 
         #Add new enemy every 3 seconds, change to 5 seconds later
         self.enemyTimer += dt
-        if self.enemyTimer > 3:
+        if self.enemyTimer > 5:
+            self.resources += 5 #Resources added every 5 seconds, no need for another counter
             self.enemyTimer = 0
             #Generate random numbers to determine which enemy to select and what row to place them in.
             #The enemyNumber is weighted in favor of the weaker enemy type
             enemyNumber = random.randint(1, 10)
             enemyRow = random.randint(1, 5)
-            if enemyNumber <= 6:
+            if enemyNumber <= 7:
                 enemyNumber = 1
             else:
                 enemyNumber = 2
@@ -138,15 +140,55 @@ class Game(BoxLayout):
             elif enemyRow == 5:
                 self.row5.addEnemy(enemy)
 
+        #Check for whether or not the Defenders or Enemies should be attacking
         for e in self.enemyList:
             for d in self.defenderList:
-                d.update(dt)
-                e.update(dt)
+                if e.row == d.row:
+                    if e.collide_widget(d):
+                        e.state = 2
+                        d.state = 2
+                        if e.animCounter == 7:
+                            d.takeDamage(e.power)
+                        if d.animCounter == 7:
+                            e.takeDamage(d.power)
+
+
+        #Update the Defenders and Enemies.  If they are dead, they need to be removed entirely
+        for e in self.enemyList:
+            e.update(dt)
+            if e.state == 3:
+                self.removeCharacter(e)
+        for d in self.defenderList:
+            d.update(dt)
+            if d.state == 3:
+                self.removeCharacter(d)
 
         #Load the header.  Reasoning for being here is in readme file.
         if not self.headerIsLoaded:
             self.header.DefenderMenu()
             self.headerIsLoaded = True
+
+
+    def removeCharacter(self, character):
+        #Remove the character from the appropriate list
+        if isinstance(character, Enemy):
+            self.enemyList.remove(character)
+        else:
+            self.defenderList.remove(character)
+
+        #Determine the character's row and remove the widget
+        if character.row == 1:
+            self.row1.remove_widget(character)
+        elif character.row == 2:
+            self.row2.remove_widget(character)
+        elif character.row == 3:
+            self.row3.remove_widget(character)
+        elif character.row == 4:
+            self.row4.remove_widget(character)
+        else:
+            self.row5.remove_widget(character)
+
+
 
 
     def on_touch_down(self, touch):

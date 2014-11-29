@@ -30,18 +30,21 @@ class Defender(Character):
     def setStats(self, selection):
         if selection == 1:
             self.health = 100
-            self.power = 25
+            self.power = 10
+            self.cost = 5
             self.name = 'defenderCaveman'
         elif selection == 2:
             self.health = 150
             self.power = 20
+            self.cost = 20
             self.name = 'defenderDwarf'
         elif selection == 3:
             self.health = 200
-            self.power = 13
+            self.power = 15
+            self.cost = 50
             self.name = 'defenderVlad'
         elif selection == 4:
-            self.health = 20
+            self.health = 100
             self.power = 40
 
     def loadImage(self, selection):
@@ -54,10 +57,12 @@ class Defender(Character):
     def update(self, dt):
         if self.state == 2:
             self.animDelay += 1
-            if self.animDelay >= 30:
+            if self.animDelay >= 10:
                 self.animDelay = 0
                 self.animCounter += 1
                 if self.animCounter >= 8:
                     self.animCounter = 0
                 self.source = os.path.join(os.path.dirname(__file__),
                                            'images', self.name, 'attack%d.png' %self.animCounter)
+        if self.health <= 0:
+            self.state = 3

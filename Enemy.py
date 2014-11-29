@@ -17,6 +17,7 @@ from kivy.core.window import Window
 import os
 
 class Enemy(Character):
+    speed = 0
 
     def __init__(self, selection, row, **kwargs):
         super(Enemy, self).__init__(**kwargs)
@@ -32,16 +33,19 @@ class Enemy(Character):
             self.health = 100
             self.power = 5
             self.name = 'enemyGnome'
+            self.speed = 10
         elif selection == 2:
             #Strong enemy, weak health
             self.health = 60
             self.power = 15
             self.name = 'enemyTroll'
+            self.speed = 6
         elif selection == 3:
             #Fast enemy
             self.health = 80
             self.power = 7
             self.name = 'enemyDragon'
+            self.speed = 8
 
     def loadImage(self, selection):
         try:
@@ -51,11 +55,11 @@ class Enemy(Character):
             Logger.error("Error loading %s" %img)
 
     def move(self):
-        self.set_center_x(self.get_center_x() - 5)
+        self.set_center_x(self.get_center_x() - self.speed)
 
     def update(self, dt):
         self.animDelay += 1
-        if self.animDelay >= 30:
+        if self.animDelay >= 10:
             self.animDelay = 0
             self.animCounter += 1
             if self.animCounter >= 8:
@@ -63,6 +67,9 @@ class Enemy(Character):
             if self.state == 1:
                 self.source = os.path.join(os.path.dirname(__file__),
                                        'images', self.name, 'walk%d.png' %self.animCounter)
+                self.move()
             elif self.state == 2:
                 self.source = os.path.join(os.path.dirname(__file__),
                                        'images', self.name, 'attack%d.png' %self.animCounter)
+        if self.health <= 0:
+            self.state = 3
