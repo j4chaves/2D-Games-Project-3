@@ -30,14 +30,14 @@ class Enemy(Character):
     def setStats(self, selection):
         if selection == 1:
             #Basic enemy
-            self.health = 100
+            self.health = 50
             self.power = 5
             self.name = 'enemyGnome'
             self.speed = 10
         elif selection == 2:
             #Strong enemy, weak health
-            self.health = 60
-            self.power = 15
+            self.health = 75
+            self.power = 10
             self.name = 'enemyTroll'
             self.speed = 6
         elif selection == 3:

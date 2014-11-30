@@ -28,6 +28,7 @@ from kivy.graphics import Color
 from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.logger import Logger
+from kivy.uix.label import Label
 from kivy.uix.widget import Widget
 from kivy.uix.boxlayout import BoxLayout
 import os
@@ -91,7 +92,8 @@ class Game(BoxLayout):
     row3 = Row()
     row4 = Row()
     row5 = Row()
-    reources = 5
+    resources = 5
+    score = 0
     headerIsLoaded = False
 
     def __init__(self, **kwargs):
@@ -115,7 +117,7 @@ class Game(BoxLayout):
         #Add new enemy every 3 seconds, change to 5 seconds later
         self.enemyTimer += dt
         if self.enemyTimer > 5:
-            self.resources += 5 #Resources added every 5 seconds, no need for another counter
+            self.header.updateResources(5) #Resources added every 5 seconds, no need for another counter
             self.enemyTimer = 0
             #Generate random numbers to determine which enemy to select and what row to place them in.
             #The enemyNumber is weighted in favor of the weaker enemy type
@@ -166,6 +168,8 @@ class Game(BoxLayout):
         #Load the header.  Reasoning for being here is in readme file.
         if not self.headerIsLoaded:
             self.header.DefenderMenu()
+            self.header.scoreInitialization()
+            self.header.resourceInitialization()
             self.headerIsLoaded = True
 
 
@@ -173,6 +177,7 @@ class Game(BoxLayout):
         #Remove the character from the appropriate list
         if isinstance(character, Enemy):
             self.enemyList.remove(character)
+            self.header.updateScore(5)
         else:
             self.defenderList.remove(character)
 
@@ -189,34 +194,40 @@ class Game(BoxLayout):
             self.row5.remove_widget(character)
 
 
-
-
     def on_touch_down(self, touch):
-        if self.row1.collide_point(touch.x, touch.y):
-            defender = Defender(self.defenderSelection, 1)
-            self.defenderList.append(defender)
-            self.row1.addDefender(defender)
-        elif self.row2.collide_point(touch.x, touch.y):
-            defender = Defender(self.defenderSelection, 2)
-            self.defenderList.append(defender)
-            self.row2.addDefender(defender)
-        elif self.row3.collide_point(touch.x, touch.y):
-            defender = Defender(self.defenderSelection, 3)
-            self.defenderList.append(defender)
-            self.row3.addDefender(defender)
-        elif self.row4.collide_point(touch.x, touch.y):
-            defender = Defender(self.defenderSelection, 4)
-            self.defenderList.append(defender)
-            self.row4.addDefender(defender)
-        elif self.row5.collide_point(touch.x, touch.y):
-            defender = Defender(self.defenderSelection, 5)
-            self.defenderList.append(defender)
-            self.row5.addDefender(defender)
+        if self.defenderSelection == 1:
+            resourceCost = 5
+        elif self.defenderSelection == 2:
+            resourceCost = 15
+        else:
+            resourceCost = 20
 
         #Change defender selection by clicking on the image in the header
-        elif self.header.collide_point(touch.x, touch.y):
+        if self.header.collide_point(touch.x, touch.y):
             self.defenderSelection = self.header.changeDefenderSelection(touch, self.defenderSelection)
-            print('Current Defender is %d' %self.defenderSelection)
+        elif self.header.haveEnoughResources(resourceCost):
+            if self.row1.collide_point(touch.x, touch.y):
+                defender = Defender(self.defenderSelection, 1)
+                self.defenderList.append(defender)
+                self.row1.addDefender(defender)
+            elif self.row2.collide_point(touch.x, touch.y):
+                defender = Defender(self.defenderSelection, 2)
+                self.defenderList.append(defender)
+                self.row2.addDefender(defender)
+            elif self.row3.collide_point(touch.x, touch.y):
+                defender = Defender(self.defenderSelection, 3)
+                self.defenderList.append(defender)
+                self.row3.addDefender(defender)
+            elif self.row4.collide_point(touch.x, touch.y):
+                defender = Defender(self.defenderSelection, 4)
+                self.defenderList.append(defender)
+                self.row4.addDefender(defender)
+            elif self.row5.collide_point(touch.x, touch.y):
+                defender = Defender(self.defenderSelection, 5)
+                self.defenderList.append(defender)
+                self.row5.addDefender(defender)
+
+
 
 
     #Keyboard input

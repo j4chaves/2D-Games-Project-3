@@ -36,12 +36,12 @@ class Defender(Character):
         elif selection == 2:
             self.health = 150
             self.power = 20
-            self.cost = 20
+            self.cost = 15
             self.name = 'defenderDwarf'
         elif selection == 3:
             self.health = 200
             self.power = 15
-            self.cost = 50
+            self.cost = 20
             self.name = 'defenderVlad'
         elif selection == 4:
             self.health = 100

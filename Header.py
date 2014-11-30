@@ -34,7 +34,10 @@ class Header(Widget):
     selected1 = Image()
     selected2 = Image()
     selected3 = Image()
-    score = Label()
+    score = 0
+    scoreLabel = Label()
+    resources = 15
+    resourceLabel = Label()
 
     def __init__(self, **kwargs):
         super(Header, self).__init__(**kwargs)
@@ -59,6 +62,33 @@ class Header(Widget):
         self.add_widget(self.defImage3)
         self.defImage3.set_center_x(self.right / 2 + self.defImage3.width + 5)
         self.defImage3.set_center_y(self.top - self.height/2)
+
+    def scoreInitialization(self):
+        self.scoreLabel = Label(text='[color=ff3333][b]Score: %d' %self.score + '[/b][/color]', markup = True)
+        self.scoreLabel.set_center_x(self.width - 100)
+        self.scoreLabel.set_center_y(self.top - 50)
+        self.add_widget(self.scoreLabel)
+
+    def updateScore(self, number):
+        self.score += number
+        self.scoreLabel.text = ('[color=ff3333][b]Score: %d' %self.score + '[/b][/color]')
+
+    def resourceInitialization(self):
+        self.resourceLabel = Label(text='[color=ff3333][b]Resources: %d' %self.resources + '[/b][/color]', markup = True)
+        self.resourceLabel.set_center_x(100)
+        self.resourceLabel.set_center_y(self.top - 50)
+        self.add_widget(self.resourceLabel)
+
+    def updateResources(self, number):
+        self.resources += number
+        self.resourceLabel.text =('[color=ff3333][b]Resources: %d' %self.resources + '[/b][/color]')
+
+    def haveEnoughResources(self, cost):
+        if self.resources >= cost:
+            self.updateResources(cost * (-1))
+            return True
+        else:
+            return False
 
     def changeDefenderSelection(self, touch, current):
         if self.defImage1.collide_point(touch.x, touch.y):
