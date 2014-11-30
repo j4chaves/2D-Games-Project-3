@@ -9,9 +9,16 @@ and what row they want the Defender placed in.
 
 Methods:
 init(self, selection, rowNumber, **kwargs)
+    Calls the parent class and then initializes the variables inherited from Character.py
+
 setStats(self, selection)
+    Given selection, determines what stats to assign the Defender.
+
 loadImage(self, selection)
+    Load the given the selected Defender's name assigned in setStats()
+
 update(self, dt)
+    Updates the defender's images based on the current state.
 """
 
 from kivy.core.audio import SoundLoader

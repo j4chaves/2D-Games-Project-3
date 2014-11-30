@@ -13,12 +13,36 @@ defImage3 - Image for the Vlad Defender
 selected1 - Image for when Caveman is selected for placement
 selected2 - Image for when Dwarf is selected for placement
 selected3 - Image for when Vlad is selected for placement
-score - Label for the players score
+score - Player's score
+scoreLabel - Label for the player's score
+resources - The resources the player has to select defenders
+resourceLabel - Label for the amount of player's resources
 
 Methods:
 init(self, **kwargs)
+    Calls the parent class __init__
+
 DefenderMenu(self)
+    Creates the menu for the player to select defenders from.  This method loads the images and sets their coordinates.
+
 ChangeDefenderSelection(self, touch, current)
+    This method alters the images of the DefenderMenu to display to the player what defender is currently selected.
+
+scoreInitialization(self)
+    Creates the score label and sets the initial score to 0.
+
+updateScore(self, number)
+    Updates the players score when an enemy has been killed.
+
+resourceInitialization(self)
+    Creates the resource label and sets the coordinates.
+
+updateResources(self, number)
+    Updates the resource label to accurately display the amount of resources the player has.
+
+def haveEnoughResources(self, cost)
+    Returns a boolean value based on whether or not the player has enough resources to place the
+    currently selected defender.
 """
 
 from kivy.uix.image import Image
@@ -63,6 +87,28 @@ class Header(Widget):
         self.defImage3.set_center_x(self.right / 2 + self.defImage3.width + 5)
         self.defImage3.set_center_y(self.top - self.height/2)
 
+    def changeDefenderSelection(self, touch, current):
+        if self.defImage1.collide_point(touch.x, touch.y):
+            directory = os.path.dirname(__file__)
+            self.defImage1.source = os.path.join(directory, 'images', 'defenderCaveman', 'selected.png')
+            self.defImage2.source = os.path.join(directory, 'images', 'defenderDwarf', 'attack0.png')
+            self.defImage3.source = os.path.join(directory, 'images', 'defenderVlad', 'attack0.png')
+            return 1
+        elif self.defImage2.collide_point(touch.x, touch.y):
+            directory = os.path.dirname(__file__)
+            self.defImage1.source = os.path.join(directory, 'images', 'defenderCaveman', 'attack0.png')
+            self.defImage2.source = os.path.join(directory, 'images', 'defenderDwarf', 'selected.png')
+            self.defImage3.source = os.path.join(directory, 'images', 'defenderVlad', 'attack0.png')
+            return 2
+        elif self.defImage3.collide_point(touch.x, touch.y):
+            directory = os.path.dirname(__file__)
+            self.defImage1.source = os.path.join(directory, 'images', 'defenderCaveman', 'attack0.png')
+            self.defImage2.source = os.path.join(directory, 'images', 'defenderDwarf', 'attack0.png')
+            self.defImage3.source = os.path.join(directory, 'images', 'defenderVlad', 'selected.png')
+            return 3
+        else:
+            return current
+
     def scoreInitialization(self):
         self.scoreLabel = Label(text='[color=ff3333][b]Score: %d' %self.score + '[/b][/color]', markup = True)
         self.scoreLabel.set_center_x(self.width - 100)
@@ -90,24 +136,3 @@ class Header(Widget):
         else:
             return False
 
-    def changeDefenderSelection(self, touch, current):
-        if self.defImage1.collide_point(touch.x, touch.y):
-            directory = os.path.dirname(__file__)
-            self.defImage1.source = os.path.join(directory, 'images', 'defenderCaveman', 'selected.png')
-            self.defImage2.source = os.path.join(directory, 'images', 'defenderDwarf', 'attack0.png')
-            self.defImage3.source = os.path.join(directory, 'images', 'defenderVlad', 'attack0.png')
-            return 1
-        elif self.defImage2.collide_point(touch.x, touch.y):
-            directory = os.path.dirname(__file__)
-            self.defImage1.source = os.path.join(directory, 'images', 'defenderCaveman', 'attack0.png')
-            self.defImage2.source = os.path.join(directory, 'images', 'defenderDwarf', 'selected.png')
-            self.defImage3.source = os.path.join(directory, 'images', 'defenderVlad', 'attack0.png')
-            return 2
-        elif self.defImage3.collide_point(touch.x, touch.y):
-            directory = os.path.dirname(__file__)
-            self.defImage1.source = os.path.join(directory, 'images', 'defenderCaveman', 'attack0.png')
-            self.defImage2.source = os.path.join(directory, 'images', 'defenderDwarf', 'attack0.png')
-            self.defImage3.source = os.path.join(directory, 'images', 'defenderVlad', 'selected.png')
-            return 3
-        else:
-            return current

@@ -17,8 +17,10 @@ animDelay - Counter used to delay the next picture in the animation.
 
 Methods:
 init(self, **kwargs)
+    simply calls the parent class __init__
+
 takeDamage(self, damage)
-loadImages(self)
+    Subtracts the value of damage from the character's health
 """
 
 from kivy.uix.image import Image
@@ -41,7 +43,4 @@ class Character(Image):
 
     def takeDamage(self, damage):
         self.health -= damage
-
-    def loadImages(self):
-        pass
 

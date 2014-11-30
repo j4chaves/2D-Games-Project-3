@@ -72,10 +72,26 @@ headerIsLoaded
 
 Methods:
 init(self, **kwargs)
+    Initializes the Game window.  This method sets the orientation for the boxLayout (which Game inherits from), adds
+    the header and the 5 rows, and creates a binding for keyboard input.
+
 update(self, dt)
+
+removeCharacter(self, character)
+    Removes the given character (defender or enemy) from their corresponding list and then removes their widget from
+    whatever row they were in.  If an Enemy was removed, then the player's score is increased by 5.
+
 on_touch_down(self, touch)
+    First the method checks if the currently selected defender's cost is more than what the player has.  Then, it
+    checks where the mouse click occured.  If it occured in the header, then the currently selected defender is changed.
+    If it occured in a row, then if the player has enough resources, a new defender is created and placed.
+
 on_keyboard_down(self, keyboard, keycode, text, modifiers)
+    Alters the currently selected defender if '1', '2', or '3' is pressed.  Currently, it does not alter the defender
+    menu at the top of the screen.
+
 _keyboard_close(self)
+    Removes the keyboard binding.
 """
 
 
@@ -172,7 +188,6 @@ class Game(BoxLayout):
             self.header.resourceInitialization()
             self.headerIsLoaded = True
 
-
     def removeCharacter(self, character):
         #Remove the character from the appropriate list
         if isinstance(character, Enemy):
@@ -192,7 +207,6 @@ class Game(BoxLayout):
             self.row4.remove_widget(character)
         else:
             self.row5.remove_widget(character)
-
 
     def on_touch_down(self, touch):
         if self.defenderSelection == 1:
@@ -226,9 +240,6 @@ class Game(BoxLayout):
                 defender = Defender(self.defenderSelection, 5)
                 self.defenderList.append(defender)
                 self.row5.addDefender(defender)
-
-
-
 
     #Keyboard input
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):

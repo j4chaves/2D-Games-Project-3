@@ -7,8 +7,14 @@ Row Class
 This class separates the rows for which Defenders can be placed and enemies can traverse.
 
 Methods:
-addDefender(self, defender) -
-addEnemy(self, enemy) -
+__init__(self, **kwargs)
+    Simply calls parent class __init__
+
+addDefender(self, defender)
+    Adds a defender and sets the coordinates.
+
+addEnemy(self, enemy)
+    Adds an enemy and sets the coordinates.
 """
 
 from kivy.uix.widget import Widget

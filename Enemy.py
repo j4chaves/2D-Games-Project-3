@@ -7,6 +7,27 @@ Character Class
 This is the Enemy class.  It is the computer controlled characters
 that will be traveling from the right side of the screen to the left
 and attack the Defenders.
+
+Variables:
+speed - the speed at which the Enemy moves
+
+Methods:
+__init__(self, selection, row, **kwargs)
+    Calls parent class __init__ and then initializes the necessary variables inherited from Character and places the
+    enemy at the right edge of the screen.
+
+setStats(self, selection)
+    Sets the enemie's stats based on the randomly selected number, selection.
+
+loadImage(self, selection)
+    Load the given the selected Defender's name assigned in setStats()
+
+def move(self):
+    Moves the enemy to the left based on the enemie's speed
+
+def update(self, dt)
+    Updates the enemie's image based on the current state.
+
 """
 
 from kivy.properties import Property
