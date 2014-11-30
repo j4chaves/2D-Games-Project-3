@@ -14,7 +14,7 @@ loadImage(self, selection)
 update(self, dt)
 """
 
-from kivy.uix.image import Image
+from kivy.core.audio import SoundLoader
 from kivy.logger import Logger
 from Character import Character
 import os
@@ -64,5 +64,8 @@ class Defender(Character):
                     self.animCounter = 0
                 self.source = os.path.join(os.path.dirname(__file__),
                                            'images', self.name, 'attack%d.png' %self.animCounter)
+                #if self.source == 'attack7.png':
+                sound = SoundLoader.load(os.path.join(os.path.dirname(__file__), 'sounds', 'punch1.wav'))
+                sound.play()
         if self.health <= 0:
             self.state = 3
