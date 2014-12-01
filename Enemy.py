@@ -30,6 +30,7 @@ def update(self, dt)
 
 """
 
+from kivy.core.audio import SoundLoader
 from kivy.properties import Property
 from kivy.uix.image import Image
 from kivy.logger import Logger
@@ -84,7 +85,7 @@ class Enemy(Character):
             self.animDelay = 0
             self.animCounter += 1
             if self.animCounter >= 8:
-                self.animCounter = 0
+                    self.animCounter = 0
             if self.state == 1:
                 self.source = os.path.join(os.path.dirname(__file__),
                                        'images', self.name, 'walk%d.png' %self.animCounter)
@@ -92,5 +93,8 @@ class Enemy(Character):
             elif self.state == 2:
                 self.source = os.path.join(os.path.dirname(__file__),
                                        'images', self.name, 'attack%d.png' %self.animCounter)
+                if self.animCounter >= 7:
+                    sound = SoundLoader.load(os.path.join(os.path.dirname(__file__), 'sounds', 'punch2.wav'))
+                    sound.play()
         if self.health <= 0:
             self.state = 3

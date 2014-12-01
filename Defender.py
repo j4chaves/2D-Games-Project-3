@@ -69,10 +69,10 @@ class Defender(Character):
                 self.animCounter += 1
                 if self.animCounter >= 8:
                     self.animCounter = 0
+                    sound = SoundLoader.load(os.path.join(os.path.dirname(__file__), 'sounds', 'punch1.wav'))
+                    sound.play()
                 self.source = os.path.join(os.path.dirname(__file__),
                                            'images', self.name, 'attack%d.png' %self.animCounter)
-                #if self.source == 'attack7.png':
-                sound = SoundLoader.load(os.path.join(os.path.dirname(__file__), 'sounds', 'punch1.wav'))
-                sound.play()
+
         if self.health <= 0:
             self.state = 3
