@@ -42,18 +42,12 @@ from Row import Row
 """
 TODO
 Figure out how to call header.DefenderMenu after init is done but not called continuously
-1. Enemy movement
+1. Create Win/Loss scenarios
 2. Rewrite Game.update() method.  The logic needs to be worked out
-3. Set animated images for enemies and defenders
-4. Animations and score
-5. Place images on headerRow for the player to see what their current defender selection is
+3. Implement a Main Menu and 2nd level
+4. Animations
 6. Comment the files
 7. Write Documentation
-
-BUGS
-
-1. When placing Defenders rapidly, the whole game speeds up.  This causes an error hen an enemy needs to be removed from
-   the enemyList.  The program can't seem to find the enemy.
 
 
 Variables:
@@ -265,6 +259,9 @@ class GameApp(App):
         game = Game()
         Clock.schedule_interval(game.update, 1.0 / 60.0)
         return game
+        #mainMenu = MainMenu()
+        #mainMenu.createMenu()
+        #return mainMenu
 
 
 if __name__ == '__main__':
