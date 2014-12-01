@@ -95,6 +95,8 @@ class Game(BoxLayout):
     defenderList = []
     enemyList = []
     enemyTimer = 0
+    enemyCounter = 0
+    enemiesDefeated = 0
     defenderSelection = 1
     header = Header()
     row1 = Row()
@@ -137,32 +139,33 @@ class Game(BoxLayout):
                 enemyNumber = 1
             else:
                 enemyNumber = 2
-            enemy = Enemy(enemyNumber, enemyRow)
-            self.enemyList.append(enemy)
+            if not self.enemyCounter >= 15:
+                enemy = Enemy(enemyNumber, enemyRow)
+                self.enemyList.append(enemy)
+                self.enemyCounter += 1
 
-            #Add enemy to their row
-            if enemyRow == 1:
-                self.row1.addEnemy(enemy)
-            elif enemyRow == 2:
-                self.row2.addEnemy(enemy)
-            elif enemyRow == 3:
-                self.row3.addEnemy(enemy)
-            elif enemyRow == 4:
-                self.row4.addEnemy(enemy)
-            elif enemyRow == 5:
-                self.row5.addEnemy(enemy)
+                #Add enemy to their row
+                if enemyRow == 1:
+                    self.row1.addEnemy(enemy)
+                elif enemyRow == 2:
+                    self.row2.addEnemy(enemy)
+                elif enemyRow == 3:
+                    self.row3.addEnemy(enemy)
+                elif enemyRow == 4:
+                    self.row4.addEnemy(enemy)
+                elif enemyRow == 5:
+                    self.row5.addEnemy(enemy)
 
         #Check for whether or not the Defenders or Enemies should be attacking
         for e in self.enemyList:
             for d in self.defenderList:
-                if e.row == d.row:
-                    if e.collide_widget(d):
-                        e.state = 2
-                        d.state = 2
-                        if e.animCounter == 7:
-                            d.takeDamage(e.power)
-                        if d.animCounter == 7:
-                            e.takeDamage(d.power)
+                if e.row == d.row and d.collide_widget(e):
+                    e.state = 2
+                    d.state = 2
+                    if e.animCounter == 7:
+                        d.takeDamage(e.power)
+                    if d.animCounter == 7:
+                        e.takeDamage(d.power)
 
 
         #Update the Defenders and Enemies.  If they are dead, they need to be removed entirely
@@ -170,6 +173,14 @@ class Game(BoxLayout):
             e.update(dt)
             if e.state == 3:
                 self.removeCharacter(e)
+                self.enemiesDefeated += 1
+                if self.enemiesDefeated >= 15:
+                    #Enact win event here
+                    pass
+            elif e.get_center_x() <= 0:
+                #Enact Losing scenario
+                    pass
+
         for d in self.defenderList:
             d.update(dt)
             if d.state == 3:
