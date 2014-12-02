@@ -43,12 +43,12 @@ class Defender(Character):
         elif selection == 2:
             self.health = 150
             self.power = 20
-            self.cost = 15
+            self.cost = 10
             self.name = 'defenderDwarf'
         elif selection == 3:
             self.health = 200
             self.power = 15
-            self.cost = 20
+            self.cost = 15
             self.name = 'defenderVlad'
         elif selection == 4:
             self.health = 100
@@ -62,6 +62,7 @@ class Defender(Character):
             Logger.error("Error loading %s" %img)
 
     def update(self, dt):
+        #state 2 is the attacking state
         if self.state == 2:
             self.animDelay += 1
             if self.animDelay >= 10:

@@ -61,7 +61,7 @@ class Enemy(Character):
             self.health = 75
             self.power = 10
             self.name = 'enemyTroll'
-            self.speed = 6
+            self.speed = 5
         elif selection == 3:
             #Fast enemy
             self.health = 80

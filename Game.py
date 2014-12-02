@@ -6,63 +6,32 @@ Game Class
 
 This is the main game file that controls the flow of the game.
 
-GAME CLASS:
-    This class controls the main game mechanics and what is happening on screen.
-
-    VARIABLES:
-        charList - list of all the Defenders on the screen
-        enemyList - list of all the Enemies of the screen
-
-
-    METHODS:
 
 GAMEAPP CLASS:
     Top level class that starts the game and the Clock for updating the screen and handles the game logic.
-"""
 
-from kivy.app import App
-from kivy.clock import Clock
-from kivy.config import Config  # needed to configure the window size
-from kivy.core.window import Window, WindowBase
-from kivy.graphics import Color
-from kivy.uix.button import Button
-from kivy.uix.image import Image
-from kivy.logger import Logger
-from kivy.uix.label import Label
-from kivy.uix.widget import Widget
-from kivy.uix.boxlayout import BoxLayout
-import os
-import random
-from Defender import Defender
-from Enemy import Enemy
-from Header import Header
-from Row import Row
+    build(self)
+        Initializes a game objest, sets the clock to update the screen 60 times a second and returns the game object.
 
-
-"""
-TODO
-Figure out how to call header.DefenderMenu after init is done but not called continuously
-1. Create Win/Loss scenarios
-2. Rewrite Game.update() method.  The logic needs to be worked out
-3. Implement a Main Menu and 2nd level
-4. Animations
-6. Comment the files
-7. Write Documentation
-
+GAME CLASS:
+    This class controls the main game mechanics and what is happening on screen.
 
 Variables:
-enemySpawnCounter
-defenderList
-enemyList
-enemyTimer
-defenderSelection
-header
-row1
-row2
-row3
-row4
-row5
-headerIsLoaded
+    defenderList - list that holds all the defenders on the screen
+    defenderSelection - The defender that
+    enemyList - list that holds all the enemies on the screen
+    enemySpawnCounter - keeps track of the number of enemies that have been created to determine when to stop
+                        creating new ones
+    enemyTimer - timer that signals to create a new enemy after 5 seconds.  Also gives the player more resources too.
+    header - Header object that displays the available defenders and which is currently chosen by the player.
+    row1 - Row object for the game
+    row2 - Row object for the game
+    row3 - Row object for the game
+    row4 - Row object for the game
+    row5 - Row object for the game
+    headerIsLoaded - This is needed because I couldn't initialize the header.  I could not get the width or height of
+                     the screen during the init method so I needed to create the header outside of the init method but
+                     not have it recreated every time the screen updates.  This allows for the one time creation.
 
 Methods:
 init(self, **kwargs)
@@ -88,16 +57,35 @@ _keyboard_close(self)
     Removes the keyboard binding.
 """
 
+from kivy.app import App
+from kivy.clock import Clock
+from kivy.config import Config  # needed to configure the window size
+from kivy.core.audio import SoundLoader
+from kivy.core.window import Window, WindowBase
+from kivy.graphics import Color
+from kivy.uix.button import Button
+from kivy.uix.image import Image
+from kivy.logger import Logger
+from kivy.uix.label import Label
+from kivy.uix.widget import Widget
+from kivy.uix.boxlayout import BoxLayout
+import os
+import random
+import time
+from Defender import Defender
+from Enemy import Enemy
+from Header import Header
+from Row import Row
 
 # GAME CLASS
 class Game(BoxLayout):
-    enemySpawnCounter = 0
     defenderList = []
-    enemyList = []
-    enemyTimer = 0
-    enemyCounter = 0
-    enemiesDefeated = 0
     defenderSelection = 1
+    enemiesDefeated = 0
+    enemyList = []
+    enemySpawnCounter = 0
+    enemyTimer = 0
+    gameTime = 0
     header = Header()
     row1 = Row()
     row2 = Row()
@@ -107,6 +95,7 @@ class Game(BoxLayout):
     resources = 5
     score = 0
     headerIsLoaded = False
+    gameOver = False
 
     def __init__(self, **kwargs):
         super(Game, self).__init__(**kwargs)
@@ -123,11 +112,16 @@ class Game(BoxLayout):
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self, 'text')
         self._keyboard.bind(on_key_down=self.on_keyboard_down)
 
-    #THIS WHOLE METHOD NEEDS TO BE THOUGHT OUT ON PAPER BEFORE BEING IMPLEMENTED
     def update(self, dt):
+
+        #Check if the game has reached an end state
+        if self.gameOver == True:
+            time.sleep(5)
+            exit()
 
         #Add new enemy every 3 seconds, change to 5 seconds later
         self.enemyTimer += dt
+        self.gameTime += dt
         if self.enemyTimer > 5:
             self.header.updateResources(5) #Resources added every 5 seconds, no need for another counter
             self.enemyTimer = 0
@@ -139,10 +133,9 @@ class Game(BoxLayout):
                 enemyNumber = 1
             else:
                 enemyNumber = 2
-            if not self.enemyCounter >= 15:
+            if not self.gameTime >= 15:
                 enemy = Enemy(enemyNumber, enemyRow)
                 self.enemyList.append(enemy)
-                self.enemyCounter += 1
 
                 #Add enemy to their row
                 if enemyRow == 1:
@@ -173,13 +166,26 @@ class Game(BoxLayout):
             e.update(dt)
             if e.state == 3:
                 self.removeCharacter(e)
-                self.enemiesDefeated += 1
-                if self.enemiesDefeated >= 15:
+                self.gameTime >= 10
+                if self.gameTime >= 180:    #3 minutes of game time
                     #Enact win event here
-                    pass
+                    win = Label(text="[size=24][b]YOU WON[/b][/size]", markup = True)
+                    win.set_center_x(self.width / 2)
+                    win.set_center_y(self.width / 2)
+                    self.row3.add_widget(win)
+                    sound = SoundLoader.load(os.path.join(os.path.dirname(__file__), 'sounds', 'victorysound.wav'))
+                    sound.play()
+                    self.gameOver = True
             elif e.get_center_x() <= 0:
                 #Enact Losing scenario
-                    pass
+                loss = Label(text="[size=24][b]YOU LOSE[/b][/size]", markup = True)
+                loss.set_center_x(self.width / 2)
+                loss.set_center_y(self.height / 2)
+                self.row3.add_widget(loss)
+                sound = SoundLoader.load(os.path.join(os.path.dirname(__file__), 'sounds', 'defeat.wav'))
+                sound.play()
+                self.gameOver = True
+
 
         for d in self.defenderList:
             d.update(dt)
@@ -250,13 +256,13 @@ class Game(BoxLayout):
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[1] == '1':
             self.defenderSelection = 1
-            print("%s" % self.defenderSelection)
+            self.header.changeDefenderSelectionKeyboard(1, self.defenderSelection)
         elif keycode[1] == '2':
             self.defenderSelection = 2
-            print("%s" % self.defenderSelection)
+            self.header.changeDefenderSelectionKeyboard(2, self.defenderSelection)
         elif keycode[1] == '3':
             self.defenderSelection = 3
-            print("%s" % self.defenderSelection)
+            self.header.changeDefenderSelectionKeyboard(3, self.defenderSelection)
 
     #taken from Kivy Documentation
     def _keyboard_closed(self):

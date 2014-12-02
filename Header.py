@@ -109,6 +109,28 @@ class Header(Widget):
         else:
             return current
 
+    def changeDefenderSelectionKeyboard(self, key, current):
+        if key == 1:
+            directory = os.path.dirname(__file__)
+            self.defImage1.source = os.path.join(directory, 'images', 'defenderCaveman', 'selected.png')
+            self.defImage2.source = os.path.join(directory, 'images', 'defenderDwarf', 'attack0.png')
+            self.defImage3.source = os.path.join(directory, 'images', 'defenderVlad', 'attack0.png')
+            return 1
+        elif key == 2:
+            directory = os.path.dirname(__file__)
+            self.defImage1.source = os.path.join(directory, 'images', 'defenderCaveman', 'attack0.png')
+            self.defImage2.source = os.path.join(directory, 'images', 'defenderDwarf', 'selected.png')
+            self.defImage3.source = os.path.join(directory, 'images', 'defenderVlad', 'attack0.png')
+            return 2
+        elif key == 3:
+            directory = os.path.dirname(__file__)
+            self.defImage1.source = os.path.join(directory, 'images', 'defenderCaveman', 'attack0.png')
+            self.defImage2.source = os.path.join(directory, 'images', 'defenderDwarf', 'attack0.png')
+            self.defImage3.source = os.path.join(directory, 'images', 'defenderVlad', 'selected.png')
+            return 3
+        else:
+            return current
+
     def scoreInitialization(self):
         self.scoreLabel = Label(text='[color=ff3333][b]Score: %d' %self.score + '[/b][/color]', markup = True)
         self.scoreLabel.set_center_x(self.width - 100)
@@ -135,4 +157,3 @@ class Header(Widget):
             return True
         else:
             return False
-
